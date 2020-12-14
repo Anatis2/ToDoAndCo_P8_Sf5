@@ -22,6 +22,18 @@ class User implements UserInterface
      */
     private $id;
 
+	/**
+	 * @ORM\Column(type="string", length=255)
+	 * @Assert\NotBlank(message="Le champ surname ne peut pas être vide")
+	 */
+	private $surname;
+
+	/**
+	 * @ORM\Column(type="string", length=255)
+	 * @Assert\NotBlank(message="Le champ surname ne peut pas être vide")
+	 */
+	private $firstname;
+
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
@@ -38,10 +50,44 @@ class User implements UserInterface
      */
     private $roles = [];
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    public function __construct()
+	{
+		$this->createdAt = new \DateTime();
+	}
+
+	public function getId(): ?int
+	{
+		return $this->id;
+	}
+
+	public function getSurname(): ?string
+	{
+		return $this->surname;
+	}
+
+	public function setSurname(string $surname): self
+	{
+		$this->surname = $surname;
+
+		return $this;
+	}
+
+	public function getFirstname(): ?string
+	{
+		return $this->firstname;
+	}
+
+	public function setFirstname(string $firstname): self
+	{
+		$this->firstname = $firstname;
+
+		return $this;
+	}
 
     public function getEmail(): ?string
     {
@@ -115,4 +161,17 @@ class User implements UserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
 }

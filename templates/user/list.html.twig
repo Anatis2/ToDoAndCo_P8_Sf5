@@ -15,8 +15,9 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Nom d'utilisateur</th>
-                        <th>Adresse d'utilisateur</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Adresse mail</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -24,7 +25,8 @@
                 {% for user in users %}
                     <tr>
                         <th scope="row">{{ loop.index }}</th>
-                        <td>{{ user.username }}</td>
+                        <td>{{ user.surname }}</td>
+                        <td>{{ user.firstname }}</td>
                         <td>{{ user.email }}</td>
                         <td>
                             <a href="{{ path('user_edit', {'id' : user.id}) }}" class="btn btn-success btn-sm">Edit</a>
