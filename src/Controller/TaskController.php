@@ -40,7 +40,6 @@ class TaskController extends AbstractController
 			$em->flush();
 
 			$this->addFlash('success', 'La tâche a été bien été ajoutée.');
-
 			return $this->redirectToRoute('task_list');
 		}
 
@@ -52,9 +51,24 @@ class TaskController extends AbstractController
 	/**
 	 * @Route("/tasks/{id}/edit", name="task_edit")
 	 */
-	public function editAction()
+	public function editAction(Request $request, Task $task, EntityManagerInterface $em)
 	{
-		//TODO
+		$form = $this->createForm(TaskType::class, $task);
+
+		$form->handleRequest($request);
+
+		if($form->isSubmitted() && $form->isValid()) {
+			$em->persist($task);
+			$em->flush();
+
+			$this->addFlash('success', 'La tâche a été bien été modifiée.');
+			return $this->redirectToRoute('task_list');
+		}
+
+		return $this->render('task/edit.html.twig', [
+			'form' => $form->createView(),
+			'task' => $task,
+		]);
 	}
 
 	/**
