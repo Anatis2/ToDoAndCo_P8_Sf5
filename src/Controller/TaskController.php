@@ -74,17 +74,25 @@ class TaskController extends AbstractController
 	/**
 	 * @Route("/tasks/{id}/toggle", name="task_toggle")
 	 */
-	public function toggleTaskAction()
+	public function toggleTaskAction(Task $task, EntityManagerInterface $em)
 	{
-		//TODO
+		$task->toggle(!$task->isDone());
+		$em->flush();
+
+		$this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
+		return $this->redirectToRoute('task_list');
 	}
 
 	/**
 	 * @Route("/tasks/{id}/delete", name="task_delete")
 	 */
-	public function deleteTaskAction()
+	public function deleteTaskAction(Task $task, EntityManagerInterface $em)
 	{
-		//TODO
+		/*$em->remove($task);
+		$em->flush();
+
+		$this->addFlash('success', 'La tâche a bien été supprimée.');
+		return $this->redirectToRoute('task_list');*/
 	}
 
 }
