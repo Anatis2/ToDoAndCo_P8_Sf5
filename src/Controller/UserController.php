@@ -55,8 +55,25 @@ class UserController extends AbstractController
 	/**
 	 * @Route("/users/{id}/edit", name="user_edit")
 	 */
-	public function editAction()
+	public function editAction(Request $request, User $user, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
 	{
-		//TODO
+		$form = $this->createForm(UserType::class, $user);
+
+		$form->handleRequest($request);
+
+		if($form->isSubmitted() && $form->isValid()) {
+			$password = $encoder->encodePassword($user, $user->getPassword());
+			$user->setPassword($password);
+			$em->persist($user);
+			$em->flush();
+
+			$this->addFlash('success', "L'utilisateur a bien été modifié.");
+			return $this->redirectToRoute('user_list');
+		}
+
+		return $this->render('user/edit.html.twig', [
+			'form' => $form->createView(),
+			'user' => $user,
+		]);
 	}
 }
