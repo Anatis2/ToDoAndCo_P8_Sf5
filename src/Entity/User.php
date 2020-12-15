@@ -65,7 +65,12 @@ class User implements UserInterface
     public function __construct()
 	{
 		$this->createdAt = new \DateTime();
-  $this->tasks = new ArrayCollection();
+  		$this->tasks = new ArrayCollection();
+	}
+
+	public function __toString()
+	{
+		return sprintf('%s', $this->surname);
 	}
 
 	public function getId(): ?int

@@ -8,6 +8,10 @@ body {
     padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
 }
 
+.btnPageTop {
+    margin-bottom: 8px;
+}
+
 .slide-image {
     width: 100%;
 }
@@ -22,7 +26,7 @@ body {
 }
 
 .caption {
-    height: 130px;
+    height: 200px;
     overflow: hidden;
 }
 
