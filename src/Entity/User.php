@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Repository\UserRepository;
@@ -55,39 +57,45 @@ class User implements UserInterface
      */
     private $createdAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Task::class, mappedBy="user")
+     */
+    private $tasks;
+
     public function __construct()
 	{
 		$this->createdAt = new \DateTime();
+  $this->tasks = new ArrayCollection();
 	}
 
 	public function getId(): ?int
-	{
-		return $this->id;
-	}
+                     	{
+                     		return $this->id;
+                     	}
 
 	public function getSurname(): ?string
-	{
-		return $this->surname;
-	}
+                     	{
+                     		return $this->surname;
+                     	}
 
 	public function setSurname(string $surname): self
-	{
-		$this->surname = $surname;
-
-		return $this;
-	}
+                     	{
+                     		$this->surname = $surname;
+                     
+                     		return $this;
+                     	}
 
 	public function getFirstname(): ?string
-	{
-		return $this->firstname;
-	}
+                     	{
+                     		return $this->firstname;
+                     	}
 
 	public function setFirstname(string $firstname): self
-	{
-		$this->firstname = $firstname;
-
-		return $this;
-	}
+                     	{
+                     		$this->firstname = $firstname;
+                     
+                     		return $this;
+                     	}
 
     public function getEmail(): ?string
     {
@@ -170,6 +178,36 @@ class User implements UserInterface
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Task[]
+     */
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    public function addTask(Task $task): self
+    {
+        if (!$this->tasks->contains($task)) {
+            $this->tasks[] = $task;
+            $task->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTask(Task $task): self
+    {
+        if ($this->tasks->removeElement($task)) {
+            // set the owning side to null (unless already changed)
+            if ($task->getUser() === $this) {
+                $task->setUser(null);
+            }
+        }
 
         return $this;
     }

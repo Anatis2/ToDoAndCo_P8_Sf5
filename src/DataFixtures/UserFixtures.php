@@ -5,11 +5,33 @@ namespace App\DataFixtures;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends Fixture
 {
-    public function load(ObjectManager $manager)
+
+	private $encoder;
+
+	public function __construct(UserPasswordEncoderInterface $encoder)
+	{
+		$this->encoder = $encoder;
+	}
+
+	public function load(ObjectManager $manager)
     {
+		$user = new User();
+
+		$user
+			->setSurname("Anonyme")
+			->setFirstname("Anonyme")
+			->setEmail("anonyme@anonyme.fr")
+			->setPassword($this->encoder->encodePassword($user, "anonyme"))
+			->setRoles(["ROLE_USER"])
+			->setCreatedAt(new \DateTime())
+		;
+
+		$manager->persist($user);
+
     	$faker = \Faker\Factory::create('fr_FR');
 
         for($i = 1 ; $i <= 5 ; $i++) {
@@ -19,7 +41,7 @@ class UserFixtures extends Fixture
 				->setSurname($faker->lastName)
 				->setFirstname($faker->firstName)
 				->setEmail($faker->email)
-				->setPassword($faker->password)
+				->setPassword($this->encoder->encodePassword($user,$faker->password))
 				->setRoles(["ROLE_USER"])
 				->setCreatedAt(new \DateTime())
 			;

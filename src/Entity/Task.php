@@ -19,11 +19,6 @@ class Task
     private $id;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
      * @ORM\Column(type="string", length=255)
 	 * @Assert\NotBlank(message="Vous devez saisir un titre.")
      */
@@ -35,10 +30,21 @@ class Task
      */
     private $content;
 
+	/**
+	 * @ORM\Column(type="datetime")
+	 */
+	private $createdAt;
+
     /**
      * @ORM\Column(type="boolean")
      */
     private $isDone;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tasks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function __construct()
 	{
@@ -47,21 +53,10 @@ class Task
 	}
 
 	public function getId(): ?int
-    {
-        return $this->id;
-    }
+             {
+                 return $this->id;
+             }
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
 
     public function getTitle(): ?string
     {
@@ -87,13 +82,37 @@ class Task
         return $this;
     }
 
+	public function getCreatedAt(): ?\DateTimeInterface
+         	{
+         		return $this->createdAt;
+         	}
+
+	public function setCreatedAt(\DateTimeInterface $createdAt): self
+         	{
+         		$this->createdAt = $createdAt;
+         
+         		return $this;
+         	}
+
     public function isDone(): ?bool
     {
         return $this->isDone;
     }
 
 	public function toggle($flag)
-	{
-		$this->isDone = $flag;
-	}
+         	{
+         		$this->isDone = $flag;
+         	}
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
 }
