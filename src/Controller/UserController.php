@@ -34,6 +34,8 @@ class UserController extends AbstractController
 		$user = new User();
 		$form = $this->createForm(UserType::class, $user);
 
+		$userSession = $this->getUser();
+
 		$form->handleRequest($request);
 
 		if($form->isSubmitted() && $form->isValid()) {
@@ -44,7 +46,13 @@ class UserController extends AbstractController
 			$em->flush();
 
 			$this->addFlash('success', "L'utilisateur a bien été ajouté.");
-			return $this->redirectToRoute('user_list');
+
+			if($userSession) {
+				return $this->redirectToRoute('user_list');
+			} else {
+				return $this->redirectToRoute('home');
+			}
+
 		}
 
 		return $this->render('user/create.html.twig', [
