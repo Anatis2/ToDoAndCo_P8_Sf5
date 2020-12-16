@@ -19,6 +19,7 @@
                         <th>Prénom</th>
                         <th>Adresse mail</th>
                         <th>Date de création</th>
+                        <th>Rôle</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -30,6 +31,11 @@
                         <td>{{ user.firstname }}</td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.createdAt | date("d/m/Y")}}</td>
+                        <td>
+                            {% for role in user.roles %}
+                                {% if loop.first %}{{ role }}{% endif %}
+                            {% endfor %}
+                        </td>
                         <td>
                             <a href="{{ path('user_edit', {'id' : user.id}) }}" class="btn btn-success btn-sm">Edit</a>
                         </td>

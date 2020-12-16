@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserSessionType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,7 +33,7 @@ class UserController extends AbstractController
 	public function createAction(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
 	{
 		$user = new User();
-		$form = $this->createForm(UserType::class, $user);
+		$form = $this->createForm(UserSessionType::class, $user);
 
 		$userSession = $this->getUser();
 
@@ -87,13 +88,13 @@ class UserController extends AbstractController
 	}
 
 	/**
-	 * @Route("/users/{id}/edit", name="userSession_edit")
+	 * @Route("/userSession/{id}/edit", name="userSession_edit")
 	 */
 	public function editSessionAction(Request $request, User $user, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
 	{
 		$userSession = $this->getUser();
 
-		$form = $this->createForm(UserType::class, $user);
+		$form = $this->createForm(UserSessionType::class, $user);
 
 		$form->handleRequest($request);
 
@@ -108,7 +109,7 @@ class UserController extends AbstractController
 		}
 
 		if($userSession == $user) {
-			return $this->render('user/edit.html.twig', [
+			return $this->render('user/editSession.html.twig', [
 				'form' => $form->createView(),
 				'userSession' => $userSession,
 			]);
