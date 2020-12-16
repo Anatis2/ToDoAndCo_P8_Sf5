@@ -41,9 +41,8 @@
         <!-- Page Content -->
         <div class="container">
             <div class="row btnPageTop">
-                <a href="{{ path('user_create') }}" class="btn btn-primary">Créer un utilisateur</a>
-
                 {% if app.user %}
+                    <a href="{{ path('user_profile') }}" class="btn btn-primary">Mon profil</a>
                     <span class="pull-right">
                         Vous êtes connecté en tant que {{ app.user.surname }} {{ app.user.firstname }}
                         <a href="{{ path('logout') }}" class="btn btn-danger" style="margin-left: 4px;">Se déconnecter</a>

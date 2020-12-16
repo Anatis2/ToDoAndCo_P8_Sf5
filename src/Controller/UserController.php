@@ -75,13 +75,59 @@ class UserController extends AbstractController
 			$em->persist($user);
 			$em->flush();
 
-			$this->addFlash('success', "L'utilisateur a bien été modifié.");
-			return $this->redirectToRoute('user_list');
+			$this->addFlash('success', "Votre profil a bien été modifié.");
+			return $this->redirectToRoute('home');
 		}
 
 		return $this->render('user/edit.html.twig', [
 			'form' => $form->createView(),
 			'user' => $user,
+		]);
+
+	}
+
+	/**
+	 * @Route("/users/{id}/edit", name="userSession_edit")
+	 */
+	public function editSessionAction(Request $request, User $user, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
+	{
+		$userSession = $this->getUser();
+
+		$form = $this->createForm(UserType::class, $user);
+
+		$form->handleRequest($request);
+
+		if($form->isSubmitted() && $form->isValid()) {
+			$password = $encoder->encodePassword($user, $user->getPassword());
+			$user->setPassword($password);
+			$em->persist($user);
+			$em->flush();
+
+			$this->addFlash('success', "Votre profil a bien été modifié.");
+			return $this->redirectToRoute('home');
+		}
+
+		if($userSession == $user) {
+			return $this->render('user/edit.html.twig', [
+				'form' => $form->createView(),
+				'userSession' => $userSession,
+			]);
+		} else {
+			return new Response("Vous n'avez pas le droit de modifier cet utilisateur");
+		}
+
+	}
+
+	/**
+	 * @Route("/profile", name="user_profile")
+	 */
+	public function profile()
+	{
+
+		$userSession = $this->getUser();
+
+		return $this->render('user/profile.html.twig', [
+			'userSession' => $userSession,
 		]);
 	}
 }

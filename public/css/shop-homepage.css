@@ -25,6 +25,15 @@ body {
     border-radius: 4px;
 }
 
+.profileCard {
+    border: solid 1px;
+}
+
+.profileCard p {
+    margin: 8px;
+    font-size: 120%;
+}
+
 .caption {
     height: 200px;
     overflow: hidden;

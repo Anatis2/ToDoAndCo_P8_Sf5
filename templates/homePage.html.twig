@@ -5,9 +5,18 @@
 {% endblock %}
 
 {% block body %}
+
+    <h2>Tâches :</h2>
     <div class="row">
         <a href="{{ path('task_create') }}" class="btn btn-success">Créer une nouvelle tâche</a>
         <a href="{{ path('task_list') }}" class="btn btn-info">Consulter la liste des tâches à faire</a>
         <a href="{{ path('task_list') }}" class="btn btn-secondary">Consulter la liste des tâches terminées</a>
     </div>
+
+    <h2>Utilisateurs :</h2>
+    <div class="row">
+        <a href="{{ path('user_create') }}" class="btn btn-success">Créer un utilisateur</a>
+        <a href="{{ path('user_list') }}" class="btn btn-info">Gérer les utilisateurs</a>
+    </div>
+
 {% endblock %}
