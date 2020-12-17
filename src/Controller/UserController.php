@@ -8,9 +8,11 @@ use App\Form\UserSessionTypeCreate;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -34,7 +36,7 @@ class UserController extends AbstractController
 	 * @Route("/users/create", name="user_create")
 	 * @isGranted("ROLE_ADMIN")
 	 */
-	public function createAction(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
+	public function createAction(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder, MailerInterface $mailer)
 	{
 		$user = new User();
 		$form = $this->createForm(UserSessionTypeCreate::class, $user);
@@ -44,13 +46,24 @@ class UserController extends AbstractController
 		$form->handleRequest($request);
 
 		if($form->isSubmitted() && $form->isValid()) {
-			$password = $encoder->encodePassword($user, $user->getPassword());
-			$user->setPassword($password);
+			$password = $user->getPassword();
+			$encodedPassword = $encoder->encodePassword($user, $password);
+			$user->setPassword($encodedPassword);
 			$user->setRoles(['ROLE_USER']);
 			$em->persist($user);
 			$em->flush();
+			$email = (new TemplatedEmail())
+				->from('claire.coubard@gmail.com')
+				->to($user->getEmail())
+				->subject('Activation de votre compte TODO AND CO !')
+				->htmlTemplate('user/mailCreationCompte.html.twig')
+				->context([
+					'userEmail' => $user->getEmail(),
+					'userPwd' => $password,
+				]);
+			$mailer->send($email);
 
-			$this->addFlash('success', "L'utilisateur a bien été ajouté. Un email vient de lui être envoyé pour qu'il active son compte.");
+			$this->addFlash('success', "L'utilisateur a bien été ajouté. Un email vient de lui être envoyé pour le notifier.");
 
 			if($userSession) {
 				return $this->redirectToRoute('user_list');
