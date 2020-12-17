@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserSessionType;
+use App\Form\UserSessionTypeCreate;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,11 +13,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class UserController extends AbstractController
 {
 	/**
 	 * @Route("/users", name="user_list")
+	 *  @isGranted("ROLE_ADMIN")
 	 */
 	public function listAction(UserRepository $userRepository)
 	{
@@ -29,11 +32,12 @@ class UserController extends AbstractController
 
 	/**
 	 * @Route("/users/create", name="user_create")
+	 * @isGranted("ROLE_ADMIN")
 	 */
 	public function createAction(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
 	{
 		$user = new User();
-		$form = $this->createForm(UserSessionType::class, $user);
+		$form = $this->createForm(UserSessionTypeCreate::class, $user);
 
 		$userSession = $this->getUser();
 
@@ -46,7 +50,7 @@ class UserController extends AbstractController
 			$em->persist($user);
 			$em->flush();
 
-			$this->addFlash('success', "L'utilisateur a bien été ajouté.");
+			$this->addFlash('success', "L'utilisateur a bien été ajouté. Un email vient de lui être envoyé pour qu'il active son compte.");
 
 			if($userSession) {
 				return $this->redirectToRoute('user_list');
@@ -76,7 +80,7 @@ class UserController extends AbstractController
 			$em->persist($user);
 			$em->flush();
 
-			$this->addFlash('success', "Votre profil a bien été modifié.");
+			$this->addFlash('success', "L'utilisateur a bien été modifié.");
 			return $this->redirectToRoute('home');
 		}
 
@@ -85,6 +89,21 @@ class UserController extends AbstractController
 			'user' => $user,
 		]);
 
+	}
+
+	/**
+	 * @Route("/users/{id}/delete", name="user_delete")
+	 * @isGranted("ROLE_ADMIN")
+	 */
+	public function deleteAction(Request $request, EntityManagerInterface $em, User $user)
+	{
+		if($this->isCsrfTokenValid('delete' . $user->getId(), $request->get('_token'))) {
+			$em->remove($user);
+			$em->flush();
+			$this->addFlash('success', "L'utilisateur a bien été supprimé");
+			return $this->redirectToRoute('user_list');
+		}
+		return new Response("Il y a eu un problème lors de la suppression de l'utlisateur.");
 	}
 
 	/**
@@ -124,7 +143,6 @@ class UserController extends AbstractController
 	 */
 	public function profile()
 	{
-
 		$userSession = $this->getUser();
 
 		return $this->render('user/profile.html.twig', [
