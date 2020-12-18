@@ -19,6 +19,7 @@
                         <th>Prénom</th>
                         <th>Adresse mail</th>
                         <th>Date de création</th>
+                        <th>Rôle</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -31,7 +32,20 @@
                         <td>{{ user.email }}</td>
                         <td>{{ user.createdAt | date("d/m/Y")}}</td>
                         <td>
+                            {% for role in user.roles %}
+                                {% if loop.first %}{{ role }}{% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
                             <a href="{{ path('user_edit', {'id' : user.id}) }}" class="btn btn-success btn-sm">Edit</a>
+                            <form action="{{ path('user_delete', {id: user.id}) }}"
+                                  method="post"
+                                  onsubmit="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?')"
+                                  style="margin-top: 4px;">
+                                <input type="hidden" name="_method" value="DELETE" />
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}" />
+                                <button class="btn btn-danger btn-sm">Supprimer</button>
+                            </form>
                         </td>
                     </tr>
                 {% endfor %}
