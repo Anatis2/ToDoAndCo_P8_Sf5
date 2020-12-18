@@ -13,7 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TaskController extends AbstractController
 {
-    /**
+
+	/**
      * @Route("/tasks", name="task_list")
      */
     public function listAction(TaskRepository $taskRepository)
