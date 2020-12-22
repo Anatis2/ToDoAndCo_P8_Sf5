@@ -3,9 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserSessionType;
-use App\Form\UserSessionTypeCreate;
-use App\Form\UserType;
+use App\Form\UserEditType;
+use App\Form\UserCreateType;
+use App\Form\UserRoleEditType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -39,7 +39,7 @@ class UserController extends AbstractController
 	public function createAction(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder, MailerInterface $mailer)
 	{
 		$user = new User();
-		$form = $this->createForm(UserSessionTypeCreate::class, $user);
+		$form = $this->createForm(UserCreateType::class, $user);
 
 		$userSession = $this->getUser();
 
@@ -79,11 +79,11 @@ class UserController extends AbstractController
 	}
 
 	/**
-	 * @Route("/users/{id}/edit", name="user_edit")
+	 * @Route("/users/{id}/edit", name="userRole_edit")
 	 */
-	public function editAction(Request $request, User $user, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
+	public function editRoleAction(Request $request, User $user, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
 	{
-		$form = $this->createForm(UserType::class, $user);
+		$form = $this->createForm(UserRoleEditType::class, $user);
 
 		$form->handleRequest($request);
 
@@ -120,13 +120,13 @@ class UserController extends AbstractController
 	}
 
 	/**
-	 * @Route("/userSession/{id}/edit", name="userSession_edit")
+	 * @Route("/user/{id}/edit", name="user_edit")
 	 */
-	public function editSessionAction(Request $request, User $user, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
+	public function editAction(Request $request, User $user, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
 	{
 		$userSession = $this->getUser();
 
-		$form = $this->createForm(UserSessionType::class, $user);
+		$form = $this->createForm(UserEditType::class, $user);
 
 		$form->handleRequest($request);
 

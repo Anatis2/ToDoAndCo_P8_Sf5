@@ -13,11 +13,27 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractType
+class UserCreateType extends AbstractType
 {
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		$builder
+			->add('surname', TextType::class, [
+				'label' => "Nom",
+			])
+			->add('firstname', TextType::class, [
+				'label' => "Prénom",
+			])
+			->add('email', EmailType::class, [
+				'label' => "Adresse email",
+			])
+			->add('password', RepeatedType::class, [
+				'type' => PasswordType::class,
+				'invalid_message' => "Les deux mots de passe doivent correspondre.",
+				'required' => true,
+				'first_options'  => ["label" => "Mot de passe"],
+				'second_options' => ["label" => "Tapez le mot de passe à nouveau"],
+			])
 			->add('roles', ChoiceType::class, [
 				'label' => "Rôle :",
 				'multiple' => false,
@@ -26,6 +42,7 @@ class UserType extends AbstractType
 					'Administrateur' => "ROLE_ADMIN",
 				]
 			]);
+		;
 
 		// Data transformer
 		$builder->get('roles')
@@ -39,7 +56,6 @@ class UserType extends AbstractType
 					return [$rolesString];
 				}
 			));
-
 	}
 
 	public function configureOptions(OptionsResolver $resolver)
@@ -48,4 +64,5 @@ class UserType extends AbstractType
 			'data_class' => User::class,
 		]);
 	}
+
 }
