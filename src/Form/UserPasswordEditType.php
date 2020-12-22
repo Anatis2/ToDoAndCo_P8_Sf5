@@ -13,21 +13,18 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserEditType extends AbstractType
+class UserPasswordEditType extends AbstractType
 {
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		$builder
-			->add('surname', TextType::class, [
-				'label' => "Nom",
-			])
-			->add('firstname', TextType::class, [
-				'label' => "Prénom",
-			])
-			->add('email', EmailType::class, [
-				'label' => "Adresse email",
-			])
-		;
+			->add('password', RepeatedType::class, [
+				'type' => PasswordType::class,
+				'invalid_message' => "Les deux mots de passe doivent correspondre.",
+				'required' => true,
+				'first_options'  => ["label" => "Nouveau mot de passe"],
+				'second_options' => ["label" => "Retapez votre nouveau mot de passe"],
+			]);
 	}
 
 	public function configureOptions(OptionsResolver $resolver)

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserEditType;
 use App\Form\UserCreateType;
+use App\Form\UserPasswordEditType;
 use App\Form\UserRoleEditType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -79,7 +80,7 @@ class UserController extends AbstractController
 	}
 
 	/**
-	 * @Route("/users/{id}/edit", name="userRole_edit")
+	 * @Route("/users/{id}/editRole", name="userRole_edit")
 	 */
 	public function editRoleAction(Request $request, User $user, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
 	{
@@ -127,6 +128,38 @@ class UserController extends AbstractController
 		$userSession = $this->getUser();
 
 		$form = $this->createForm(UserEditType::class, $user);
+
+		$form->handleRequest($request);
+
+		if($form->isSubmitted() && $form->isValid()) {
+			$password = $encoder->encodePassword($user, $user->getPassword());
+			$user->setPassword($password);
+			$em->persist($user);
+			$em->flush();
+
+			$this->addFlash('success', "Votre profil a bien été modifié.");
+			return $this->redirectToRoute('home');
+		}
+
+		if($userSession == $user) {
+			return $this->render('user/editSession.html.twig', [
+				'form' => $form->createView(),
+				'userSession' => $userSession,
+			]);
+		} else {
+			return new Response("Vous n'avez pas le droit de modifier cet utilisateur");
+		}
+
+	}
+
+	/**
+	 * @Route("/user/{id}/EditPassword", name="userPassword_edit")
+	 */
+	public function editPasswordAction(Request $request, User $user, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
+	{
+		$userSession = $this->getUser();
+
+		$form = $this->createForm(UserPasswordEditType::class, $user);
 
 		$form->handleRequest($request);
 
