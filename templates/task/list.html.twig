@@ -25,8 +25,10 @@
                                 </button>
                             </form>
                             {% if app.user == task.user %}
-                                <form action="{{ path('task_delete', {'id' : task.id }) }}">
-                                    <input type="hidden" name="token" value="{{ csrf_token('delete') }}"/>
+                                <form action="{{ path('task_delete', {'id' : task.id }) }}"
+                                      onsubmit="return confirm('Voulez-vous vraiment supprimer cette tâche ?')">
+                                    <input type="hidden" name="_method" value="DELETE" />
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id ) }}"/>
                                     <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
                                 </form>
                             {% endif %}

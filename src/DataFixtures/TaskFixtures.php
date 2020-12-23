@@ -16,7 +16,7 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
 
 		$faker = \Faker\Factory::create('fr_FR');
 
-		for($i = 1 ; $i <= 5 ; $i++) {
+		for($i = 1 ; $i <= 3 ; $i++) {
 			$task = new Task();
 
 			$user = $manager->getRepository(User::class)->findOneBy(["surname" => "Anonyme"]);
@@ -27,6 +27,21 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
 				->setCreatedAt(new \DateTime())
 				->setUser($user)
 				;
+
+			$manager->persist($task);
+		}
+
+		for($i = 1 ; $i <= 2 ; $i++) {
+			$task = new Task();
+
+			$user = $manager->getRepository(User::class)->findOneBy(["surname" => "User"]);
+
+			$task
+				->setTitle($faker->word)
+				->setContent($faker->text)
+				->setCreatedAt(new \DateTime())
+				->setUser($user)
+			;
 
 			$manager->persist($task);
 		}

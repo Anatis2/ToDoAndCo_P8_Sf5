@@ -90,9 +90,9 @@ class TaskController extends AbstractController
 	/**
 	 * @Route("/tasks/{id}/delete", name="task_delete")
 	 */
-	public function deleteTaskAction(Request $request, Task $task, EntityManagerInterface $em)
+	public function deleteTaskAction(Request $request, EntityManagerInterface $em, Task $task)
 	{
-		if($this->isCsrfTokenValid('delete', $request->get('token'))) {
+		if($this->isCsrfTokenValid('delete' . $task->getId(), $request->get('_token'))) {
 			$em->remove($task);
 			$em->flush();
 
