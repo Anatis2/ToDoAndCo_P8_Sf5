@@ -15,16 +15,42 @@ class TaskController extends AbstractController
 {
 
 	/**
-     * @Route("/tasks", name="task_list")
+	 * @Route("/tasks", name="task_list")
+	 */
+	public function listAction(TaskRepository $taskRepository)
+	{
+		$tasks = $taskRepository->findAll();
+
+		return $this->render('task/list.html.twig', [
+			'tasks' => $tasks,
+			'all' => true,
+		]);
+	}
+
+	/**
+     * @Route("/tasksTodo", name="taskTodo_list")
      */
-    public function listAction(TaskRepository $taskRepository)
+    public function listTodoAction(TaskRepository $taskRepository)
     {
-        $tasks = $taskRepository->findAll();
+        $tasks = $taskRepository->findBy(['isDone' => false]);
 
         return $this->render('task/list.html.twig', [
         	'tasks' => $tasks,
+			'todo' => true,
 		]);
     }
+
+	/**
+	 * @Route("/tasksDone", name="taskDone_list")
+	 */
+	public function listDoneAction(TaskRepository $taskRepository)
+	{
+		$tasks = $taskRepository->findBy(['isDone' => true]);
+
+		return $this->render('task/list.html.twig', [
+			'tasks' => $tasks,
+		]);
+	}
 
 	/**
 	 * @Route("/tasks/create", name="task_create")
@@ -90,6 +116,7 @@ class TaskController extends AbstractController
 		}
 
 		return $this->redirectToRoute('task_list');
+
 	}
 
 	/**

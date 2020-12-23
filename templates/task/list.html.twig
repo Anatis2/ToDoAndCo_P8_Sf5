@@ -6,7 +6,7 @@
 
     {% if tasks %}
         <div class="row">
-            <a href="{{ path('task_create') }}" class="btn btn-info pull-right">Créer une tâche</a>
+            <a href="{{ path('task_create') }}" class="btn btn-success pull-right">Créer une tâche</a>
         </div>
         <br/>
         <div class="row">
@@ -24,8 +24,8 @@
                     </div>
                     <div class="buttonsList">
                         <form action="{{ path('task_toggle', {'id' : task.id }) }}">
-                            <button class="btn btn-success btn-sm pull-right">
-                                {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
+                            <button class="btn btn-default btn-sm pull-right">
+                                <strong>{% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}</strong>
                             </button>
                         </form>
                         {% if app.user == task.user %}
@@ -43,9 +43,24 @@
     {% else %}
         <div class="row">
             <div class="alert alert-warning" role="alert">
-                Il n'y a pas encore de tâche enregistrée. <a href="{{ path('task_create') }}" class="btn btn-warning pull-right">Créer une tâche</a>
+                {% if todo is defined %}
+                    Il n'y a pas encore de tâche enregistrée. <a href="{{ path('task_create') }}" class="btn btn-warning pull-right">Créer une tâche</a>
+                {% else %}
+                    Il n'y a pas encore de tâche non terminée.
+                {% endif %}
             </div>
         </div>
+    {% endif %}
+
+    {% if todo is defined %}
+        <a href="{{ path('task_list') }}" class="btn btn-info">Recharger la liste complète</a>
+        <a href="{{ path('taskDone_list') }}" class="btn btn-secondary">Tâches terminées</a>
+    {% elseif all is defined %}
+        <a href="{{ path('taskTodo_list') }}" class="btn btn-warning">Tâches à faire</a>
+        <a href="{{ path('taskDone_list') }}" class="btn btn-secondary">Tâches terminées</a>
+    {% else %}
+        <a href="{{ path('task_list') }}" class="btn btn-info">Recharger la liste complète</a>
+        <a href="{{ path('taskTodo_list') }}" class="btn btn-warning">Tâches à faire</a>
     {% endif %}
 
 {% endblock %}

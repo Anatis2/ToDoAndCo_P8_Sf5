@@ -9,8 +9,9 @@
     <h2>Tâches :</h2>
     <div class="row">
         <a href="{{ path('task_create') }}" class="btn btn-success">Créer une nouvelle tâche</a>
-        <a href="{{ path('task_list') }}" class="btn btn-info">Consulter la liste des tâches à faire</a>
-        <a href="{{ path('task_list') }}" class="btn btn-secondary">Consulter la liste des tâches terminées</a>
+        <a href="{{ path('task_list') }}" class="btn btn-info">Ensemble des tâches</a>
+        <a href="{{ path('taskTodo_list') }}" class="btn btn-warning">Tâches à faire</a>
+        <a href="{{ path('taskDone_list') }}" class="btn btn-link">Tâches terminées</a>
     </div>
 
     {% if is_granted("ROLE_ADMIN")  %}
