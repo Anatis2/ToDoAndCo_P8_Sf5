@@ -26,18 +26,20 @@ class User implements UserInterface
 
 	/**
 	 * @ORM\Column(type="string", length=255)
-	 * @Assert\NotBlank(message="Le champ surname ne peut pas être vide")
+	 * @Assert\NotBlank(message="Ce champ ne peut pas être vide")
 	 */
 	private $surname;
 
 	/**
 	 * @ORM\Column(type="string", length=255)
-	 * @Assert\NotBlank(message="Le champ surname ne peut pas être vide")
+	 * @Assert\NotBlank(message="Ce champ ne peut pas être vide")
 	 */
 	private $firstname;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+	 * @Assert\NotBlank(message="Ce champ ne peut pas être vide")
+	 * @Assert\Email(message="Veuillez entrer une adresse mail valide")
      */
     private $email;
 
