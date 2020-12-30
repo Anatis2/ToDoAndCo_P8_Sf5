@@ -1,7 +1,8 @@
 App\Entity\User:
-  user{1..10}:
+  user:
     surname: <name()>
     firstname: <name()>
-    email: <email()>
+    email: "test@unique.com"
     password: "0000"
+
 

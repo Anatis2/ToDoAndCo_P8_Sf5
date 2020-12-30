@@ -3,16 +3,24 @@
 namespace App\Tests\Entity;
 
 use App\Entity\User;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Validator\ConstraintViolation;
 
 class UserTest extends KernelTestCase
 {
+	use FixturesTrait;
 
 	public function assertHasErrors(User $user, int $nbErrors = 0)
 	{
 		self::bootKernel();
-		$error = self::$container->get('validator')->validate($user);
-		$this->assertCount($nbErrors, $error);
+		$errors = self::$container->get('validator')->validate($user);
+		$messages = [];
+		/** @var ConstraintViolation $error */
+		foreach($errors as $error) {
+			$messages[] = $error->getPropertyPath() . " => " . $error->getMessage();
+		}
+		$this->assertCount($nbErrors, $errors, implode(', ', $messages));
 	}
 
 	public function testValidUserEntity()
@@ -39,6 +47,19 @@ class UserTest extends KernelTestCase
 		;
 
 		$this->assertHasErrors($user, 2);
+	}
+
+	public function testUniqueConstraint()
+	{
+		$this->loadFixtureFiles(['tests/DataFixtures/UserTestFixtures.yaml']);
+
+		$user = new User();
+		$user
+			->setSurname("Un nom")
+			->setFirstname("Un prénom")
+			->setEmail("test@unique.com")
+			;
+		$this->assertHasErrors($user, 1);
 	}
 
 }
