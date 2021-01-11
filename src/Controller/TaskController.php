@@ -10,12 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class TaskController extends AbstractController
 {
-
 	/**
 	 * @Route("/tasks", name="task_list")
+	 * @isGranted("ROLE_USER")
 	 */
 	public function listAction(TaskRepository $taskRepository)
 	{
@@ -29,6 +30,7 @@ class TaskController extends AbstractController
 
 	/**
      * @Route("/tasksTodo", name="taskTodo_list")
+	 * @isGranted("ROLE_USER")
      */
     public function listTodoAction(TaskRepository $taskRepository)
     {
@@ -42,6 +44,7 @@ class TaskController extends AbstractController
 
 	/**
 	 * @Route("/tasksDone", name="taskDone_list")
+	 * @isGranted("ROLE_USER")
 	 */
 	public function listDoneAction(TaskRepository $taskRepository)
 	{
@@ -54,6 +57,7 @@ class TaskController extends AbstractController
 
 	/**
 	 * @Route("/tasks/create", name="task_create")
+	 * @isGranted("ROLE_USER")
 	 */
 	public function createAction(Request $request, EntityManagerInterface $em)
 	{
@@ -80,6 +84,7 @@ class TaskController extends AbstractController
 
 	/**
 	 * @Route("/tasks/{id}/edit", name="task_edit")
+	 * @isGranted("ROLE_USER")
 	 */
 	public function editAction(Request $request, Task $task, EntityManagerInterface $em)
 	{
@@ -103,6 +108,7 @@ class TaskController extends AbstractController
 
 	/**
 	 * @Route("/tasks/{id}/toggle", name="task_toggle")
+	 * @isGranted("ROLE_USER")
 	 */
 	public function toggleTaskAction(Task $task, EntityManagerInterface $em)
 	{
@@ -121,6 +127,7 @@ class TaskController extends AbstractController
 
 	/**
 	 * @Route("/tasks/{id}/delete", name="task_delete")
+	 * @isGranted("ROLE_USER")
 	 */
 	public function deleteTaskAction(Request $request, EntityManagerInterface $em, Task $task)
 	{

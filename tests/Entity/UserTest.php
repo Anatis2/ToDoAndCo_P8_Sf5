@@ -51,9 +51,9 @@ class UserTest extends KernelTestCase
 
 	public function testUniqueConstraint()
 	{
-		$this->loadFixtureFiles(['tests/DataFixtures/UserTestFixtures.yaml']);
+		$users = $this->loadFixtureFiles(['tests/DataFixtures/UserTestFixtures.yaml']);
+		$user = $users['user_emailExists'];
 
-		$user = new User();
 		$user
 			->setSurname("Un nom")
 			->setFirstname("Un prénom")

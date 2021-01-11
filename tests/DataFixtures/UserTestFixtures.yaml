@@ -1,8 +1,15 @@
 App\Entity\User:
-  user:
+  user_emailExists:
     surname: <name()>
     firstname: <name()>
-    email: "test@unique.com"
+    email: "test\\@unique.com"
     password: "0000"
+    roles: "[]"
 
+  user_user:
+    surname: "User"
+    firstname: "User"
+    email: "user\\@user.fr"
+    password: "\\$argon2id\\$v=19\\$m=16,t=2,p=1\\$aGdnWkJ5UXU4d3BZQUlDNw\\$xZ3SOcximawthFkFNqFQYg"
+    roles: "[]"
 
