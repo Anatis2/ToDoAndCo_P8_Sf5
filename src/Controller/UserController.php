@@ -122,6 +122,7 @@ class UserController extends AbstractController
 
 	/**
 	 * @Route("/user/{id}/edit", name="user_edit")
+	 * @isGranted("ROLE_USER")
 	 */
 	public function editAction(Request $request, User $user, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
 	{
@@ -154,6 +155,7 @@ class UserController extends AbstractController
 
 	/**
 	 * @Route("/user/{id}/EditPassword", name="userPassword_edit")
+	 * @isGranted("ROLE_USER")
 	 */
 	public function editPasswordAction(Request $request, User $user, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
 	{
@@ -186,6 +188,7 @@ class UserController extends AbstractController
 
 	/**
 	 * @Route("/profile", name="user_profile")
+	 * @isGranted("ROLE_USER")
 	 */
 	public function profile()
 	{
