@@ -10,6 +10,12 @@ App\Entity\User:
     surname: "User"
     firstname: "User"
     email: "user\\@user.fr"
-    password: "\\$argon2id\\$v=19\\$m=16,t=2,p=1\\$aGdnWkJ5UXU4d3BZQUlDNw\\$xZ3SOcximawthFkFNqFQYg"
-    roles: "[]"
+    password: "\\$argon2id\\$v=19\\$m=65536,t=4,p=1\\$ZhteqK5PaB+OzxK0hxURwg\\$lFFyJcJZtIWyq4xa/0C78ZGc+36B1y0ZArUSpcO9els"
+    roles: "[\"ROLE_USER\"]"
 
+  user_admin:
+    surname: "Admin"
+    firstname: "Admin"
+    email: "admin\\@admin.fr"
+    password: "\\$argon2id\\$v=19\\$m=65536,t=4,p=1\\$s9MgI0VCgbazsYTt/FY6SQ\\$8hNEfS5N5+gb4JLGykuwClAgwbrjNFr2ffP7fNfjMKQ"
+    roles: "[\"ROLE_ADMIN\"]"

@@ -26,6 +26,18 @@ class SecurityControllerTest extends WebTestCase
 		$this->assertResponseRedirects('/');
 	}
 
+	public function testLoginAdminOK()
+	{
+		$client = static::createClient();
+		$crawler = $client->request('GET', '/login');
+		$form = $crawler->selectButton('Se connecter')->form([
+			'email' => "admin@admin.fr",
+			'password' => "admin",
+		]);
+		$client->submit($form);
+		$this->assertResponseRedirects('/');
+	}
+
 	public function testLoginNOK()
 	{
 		$client = static::createClient();
