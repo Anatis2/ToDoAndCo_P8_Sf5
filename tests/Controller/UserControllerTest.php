@@ -88,6 +88,47 @@ class UserControllerTest extends WebTestCase
 		$this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
 	}
 
+	public function testUserEditProfile()
+	{
+		$client = static::createClient();
+		$users = $this->loadFixtureFiles(['tests/DataFixtures/UserTestFixtures.yaml']);
+		/** @var User $user */
+		$user = $users['user_user'];
+
+		$this->login($client, $user);
+
+		$crawler = $client->request('GET', '/user/2/edit');
+		$form = $crawler->selectButton('Modifier')->form([
+			'user_edit[surname]' => "nomTestUserCreate",
+			'user_edit[firstname]' => "prenomTestUserCreate",
+			'user_edit[email]' => "nomTestUserCreate@prenomTestUserCreate.fr",
+		]);
+		$client->submit($form);
+		$this->assertResponseRedirects('/');
+		$client->followRedirect();
+		$this->assertSelectorExists('.alert-success');
+	}
+
+	public function testUserEditPassword()
+	{
+		$client = static::createClient();
+		$users = $this->loadFixtureFiles(['tests/DataFixtures/UserTestFixtures.yaml']);
+		/** @var User $user */
+		$user = $users['user_user'];
+
+		$this->login($client, $user);
+
+		$crawler = $client->request('GET', '/user/2/editPassword');
+		$form = $crawler->selectButton('Modifier')->form([
+			'user_password_edit[password][first]' => "newPWD",
+			'user_password_edit[password][second]' => "newPWD",
+		]);
+		$client->submit($form);
+		$this->assertResponseRedirects('/');
+		$client->followRedirect();
+		$this->assertSelectorExists('.alert-success');
+	}
+
 	/*public function testUserCreateSendMail()
 	{
 		$client = static::createClient();

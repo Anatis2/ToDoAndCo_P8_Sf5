@@ -11,11 +11,13 @@ class TaskTest extends KernelTestCase
 	public function testValidTaskEntity()
 	{
 		$task = new Task();
+		$user = new User();
 
 		$task
 			->setTitle("Un titre")
 			->setContent("Du contenu")
 			->setCreatedAt(new \DateTime())
+			->setUser($user);
 			;
 
 		self::bootKernel();
