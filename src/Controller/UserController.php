@@ -154,7 +154,7 @@ class UserController extends AbstractController
 	}
 
 	/**
-	 * @Route("/user/{id}/EditPassword", name="userPassword_edit")
+	 * @Route("/user/{id}/editPassword", name="userPassword_edit")
 	 * @isGranted("ROLE_USER")
 	 */
 	public function editPasswordAction(Request $request, User $user, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
