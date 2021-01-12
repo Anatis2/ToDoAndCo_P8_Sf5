@@ -31,6 +31,8 @@ class UserTest extends KernelTestCase
 			->setSurname("Un nom")
 			->setFirstname("Un prénom")
 			->setEmail("email@email.com")
+			->setCreatedAt(new \DateTime())
+			->setRoles(["ROLE_USER"])
 			;
 
 		$this->assertHasErrors($user, 0);
