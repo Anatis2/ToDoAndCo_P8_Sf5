@@ -74,6 +74,20 @@ class UserControllerTest extends WebTestCase
 		$this->assertSelectorExists('.alert-success');
 	}
 
+	public function testUserCreateRestrictedAccess()
+	{
+		$client = static::createClient();
+		$users = $this->loadFixtureFiles(['tests/DataFixtures/UserTestFixtures.yaml']);
+		/** @var User $user */
+		$user = $users['user_user'];
+
+		$this->login($client, $user);
+
+		$client->request('GET', '/users/create');
+
+		$this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+	}
+
 	/*public function testUserCreateSendMail()
 	{
 		$client = static::createClient();
