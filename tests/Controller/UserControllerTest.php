@@ -134,7 +134,7 @@ class UserControllerTest extends WebTestCase
 		$client = static::createClient();
 		$client->enableProfiler();
 		$client->request('GET', '/users/create');
-		$mailCollector = $client->getProfile()->getCollector('swiftmailer');
+		$mailCollector = $client->getProfile()->getCollector('mailer');
 		$this->assertEquals(1, $mailCollector->getMessageCount());
 
 	}*/
