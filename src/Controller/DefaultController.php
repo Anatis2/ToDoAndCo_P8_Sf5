@@ -13,8 +13,6 @@ class DefaultController extends AbstractController
      */
     public function home(): Response
     {
-    	$salt = $this->getUser();
-    	dump($salt);
         return $this->render('homePage.html.twig');
     }
 }
