@@ -86,22 +86,4 @@ class TaskControllerTest extends WebTestCase
 		$client->followRedirect();
 		$this->assertSelectorExists('.alert-success');
 	}
-
-	/*public function testToggleTaskAction()
-	{
-		$client = static::createClient();
-		$users = $this->loadFixtureFiles(['tests/DataFixtures/UserTestFixtures.yaml']);
-		/** @var User $user */
-		/*$user = $users['user_user'];
-
-		$this->login($client, $user);
-
-		$client->request('GET', '/tasks');
-
-		$client->clickLink('Marquer comme faite');
-		$this->assertResponseRedirects('/tasks');
-		$client->followRedirect();
-		$this->assertSelectorExists('.alert-success');
-	}*/
-
 }

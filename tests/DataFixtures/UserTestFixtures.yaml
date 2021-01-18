@@ -19,3 +19,10 @@ App\Entity\User:
     email: admin\@admin.fr
     password: \$argon2id\$v=19\$m=65536,t=4,p=1\$s9MgI0VCgbazsYTt/FY6SQ\$8hNEfS5N5+gb4JLGykuwClAgwbrjNFr2ffP7fNfjMKQ
     roles: ["ROLE_ADMIN"]
+
+App\Entity\Task:
+  task{1..10}:
+    title: "un titre"
+    content: "du contenu"
+    user: "@user_user"
+
