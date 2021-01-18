@@ -2,6 +2,7 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\Task;
 use App\Entity\User;
 use App\Tests\Traits\NeedLogin;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
@@ -65,12 +66,12 @@ class TaskControllerTest extends WebTestCase
 		$this->assertResponseStatusCodeSame(Response::HTTP_OK);
 	}
 
-	/*public function testTaskEdit()
+	public function testTaskEdit()
 	{
 		$client = static::createClient();
 		$users = $this->loadFixtureFiles(['tests/DataFixtures/UserTestFixtures.yaml']);
 		/** @var User $user */
-		/*$user = $users['user_user'];
+		$user = $users['user_user'];
 
 		$this->login($client, $user);
 
@@ -79,11 +80,12 @@ class TaskControllerTest extends WebTestCase
 			'task[title]' => "titreTest",
 			'task[content]' => "contenuTest",
 		]);
+
 		$client->submit($form);
 		$this->assertResponseRedirects('/tasks');
 		$client->followRedirect();
 		$this->assertSelectorExists('.alert-success');
-	}*/
+	}
 
 	/*public function testToggleTaskAction()
 	{

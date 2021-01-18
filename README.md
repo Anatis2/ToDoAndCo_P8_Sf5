@@ -17,4 +17,25 @@ Etapes d'installation
 
 5) Insérez les données de test, avec la commande "php bin/console doctrine:fixtures:load"
 
+Démarches à respecter lors de la modification du projet
+==========================================================
 
+L’application TodoAndCo est déjà viable, mais des fonctionnalités risquent de devoir être ajoutées ou modifiées.
+
+Quand c’est le cas, des issues sont ajoutées à GitHub, et éventuellement assignées à des développeurs en particulier.
+
+La liste de ces issues est présente sur le lien suivant : https://github.com/Anatis2/ToDoAndCo_P8_Sf5/issues
+
+Avant de modifier le projet, il faut déjà le mettre à jour sur votre machine locale.
+Pour cela, tapez la commande **git pull**.
+
+Ensuite, créez une branche spécialisée pour la fonctionnalité que vous souhaitez ajouter ou modifier (**git branch nomDeLaBranche**).
+
+Tout au long de l’implémentation de cette fonctionnalité, n’oubliez pas d’effectuer des commits réguliers, avec des messages clairs (**git commit -m “message expliquant ce que vous avez fait”**), suivi éventuellement d’un push sur cette branch (**git push nomDeLaBranche**).
+
+Lorsque vous pensez que votre fonctionnalité est prête, ou que vous souhaitez la soumettre à quelqu’un pour qu’il puisse vous aiser, rendez-vous sur votre repo sur le site de GitHub et proposez une pull request à un contributeur.
+
+Il ne vous restera plus qu’à attendre que ce collaborateur valide cette pull request, suite à quoi vous pourrez merger votre branche sur la branche principale.
+Pour ce faire, rendez-vous sur la branche master (**git checkout master**), puis effectuez un merge de la branche correspondante (**git merge nomDeLaBranche**).
+
+Enfin, effectuez un push de cette branche.

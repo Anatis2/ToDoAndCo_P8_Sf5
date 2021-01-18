@@ -1,0 +1,4 @@
+App\Entity\Task:
+  task{1..10}:
+    title: "un titre"
+    content: "du contenu"

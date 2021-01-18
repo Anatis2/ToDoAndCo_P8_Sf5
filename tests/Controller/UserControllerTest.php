@@ -136,7 +136,6 @@ class UserControllerTest extends WebTestCase
 		$client->request('GET', '/users/create');
 		$mailCollector = $client->getProfile()->getCollector('mailer');
 		$this->assertEquals(1, $mailCollector->getMessageCount());
-
 	}*/
 
 	public function testDisplayUsersProfile()
