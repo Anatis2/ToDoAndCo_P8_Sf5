@@ -42,8 +42,6 @@ class UserController extends AbstractController
 		$user = new User();
 		$form = $this->createForm(UserCreateType::class, $user);
 
-		$userSession = $this->getUser();
-
 		$form->handleRequest($request);
 
 		if($form->isSubmitted() && $form->isValid()) {
@@ -65,13 +63,7 @@ class UserController extends AbstractController
 			$mailer->send($email);
 
 			$this->addFlash('success', "L'utilisateur a bien été ajouté. Un email vient de lui être envoyé pour le notifier.");
-
-			if($userSession) {
-				return $this->redirectToRoute('user_list');
-			} else {
-				return $this->redirectToRoute('home');
-			}
-
+			return $this->redirectToRoute('user_list');
 		}
 
 		return $this->render('user/create.html.twig', [
@@ -81,6 +73,7 @@ class UserController extends AbstractController
 
 	/**
 	 * @Route("/users/{id}/editRole", name="userRole_edit")
+	 * @isGranted("ROLE_ADMIN")
 	 */
 	public function editRoleAction(Request $request, User $user, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
 	{
@@ -117,7 +110,7 @@ class UserController extends AbstractController
 			$this->addFlash('success', "L'utilisateur a bien été supprimé");
 			return $this->redirectToRoute('user_list');
 		}
-		return new Response("Il y a eu un problème lors de la suppression de l'utlisateur.");
+		return new Response("Il y a eu un problème lors de la suppression de l'utilisateur.");
 	}
 
 	/**

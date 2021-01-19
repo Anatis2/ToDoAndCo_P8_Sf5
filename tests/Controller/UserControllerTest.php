@@ -52,6 +52,19 @@ class UserControllerTest extends WebTestCase
 		$this->assertResponseStatusCodeSame(Response::HTTP_OK);
 	}
 
+	public function testDisplayUsersCreateForbidden()
+	{
+		$client = static::createClient();
+		$users = $this->loadFixtureFiles(['tests/DataFixtures/UserTestFixtures.yaml']);
+		/** @var User $user */
+		$user = $users['user_user'];
+
+		$this->login($client, $user);
+
+		$client->request('GET', '/users/create');
+		$this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+	}
+
 	public function testUserCreate()
 	{
 		$client = static::createClient();
@@ -129,14 +142,24 @@ class UserControllerTest extends WebTestCase
 		$this->assertSelectorExists('.alert-success');
 	}
 
-	/*public function testUserCreateSendMail()
+	public function testEditRoleAction()
 	{
 		$client = static::createClient();
-		$client->enableProfiler();
-		$client->request('GET', '/users/create');
-		$mailCollector = $client->getProfile()->getCollector('mailer');
-		$this->assertEquals(1, $mailCollector->getMessageCount());
-	}*/
+		$users = $this->loadFixtureFiles(['tests/DataFixtures/UserTestFixtures.yaml']);
+		/** @var User $user */
+		$user = $users['user_admin'];
+
+		$this->login($client, $user);
+
+		$crawler = $client->request('GET', '/users/2/editRole');
+		$form = $crawler->selectButton('Modifier')->form([
+			'user_role_edit[roles]' => "ROLE_ADMIN",
+		]);
+		$client->submit($form);
+		$this->assertResponseRedirects('/users');
+		$client->followRedirect();
+		$this->assertSelectorExists('.alert-success');
+	}
 
 	public function testDisplayUsersProfile()
 	{
@@ -163,4 +186,18 @@ class UserControllerTest extends WebTestCase
 		$client->request('GET', '/profile');
 		$this->assertResponseStatusCodeSame(Response::HTTP_OK);
 	}
+
+	/*public function testUserDelete()
+	{
+
+	}*/
+
+	/*public function testUserCreateSendMail()
+	{
+		$client = static::createClient();
+		$client->enableProfiler();
+		$client->request('GET', '/users/create');
+		$mailCollector = $client->getProfile()->getCollector('mailer');
+		$this->assertEquals(1, $mailCollector->getMessageCount());
+	}*/
 }
