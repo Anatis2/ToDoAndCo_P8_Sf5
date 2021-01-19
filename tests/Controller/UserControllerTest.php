@@ -187,10 +187,22 @@ class UserControllerTest extends WebTestCase
 		$this->assertResponseStatusCodeSame(Response::HTTP_OK);
 	}
 
-	/*public function testUserDelete()
+	public function testUserDelete()
 	{
+		$client = static::createClient();
+		$users = $this->loadFixtureFiles(['tests/DataFixtures/UserTestFixtures.yaml']);
+		/** @var User $user */
+		$user = $users['user_admin'];
 
-	}*/
+		$this->login($client, $user);
+
+		$crawler = $client->request('GET', '/users');
+		$form = $crawler->selectButton('Supprimer')->form([
+			'_method' => "DELETE",
+		]);
+		$client->submit($form);
+		$this->assertResponseRedirects('/users');
+	}
 
 	/*public function testUserCreateSendMail()
 	{
