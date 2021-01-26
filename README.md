@@ -4,6 +4,7 @@ ToDo&Co est une application de gestion de tâches.
 
 Elle correspond au projet 8 du parcours de développeur d'applications PHP/Symfony de OpenClassrooms.
 
+
 Etapes d'installation
 ========================
 
@@ -16,6 +17,21 @@ Etapes d'installation
 4) Créez le schéma de la base de données, grâce à la commande "php bin/console doctrine:schema:update --force"
 
 5) Insérez les données de test, avec la commande "php bin/console doctrine:fixtures:load"
+
+
+Comptes de connexion
+======================
+
+Utilisateur :
+---------------
+ #. Email : user@user.fr
+ #. Mot de passe : user
+ 
+Administrateur :
+---------------
+ #. Email : admin@admin.fr
+ #. Mot de passe : admin
+ 
 
 Démarches à respecter lors de la modification du projet
 ==========================================================
