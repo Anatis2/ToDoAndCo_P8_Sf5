@@ -1,5 +1,7 @@
 # TODOANDCO_P8
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6ab69226007d40b1a1a8285dc00d135d)](https://app.codacy.com/gh/Anatis2/ToDoAndCo_P8_Sf5?utm_source=github.com&utm_medium=referral&utm_content=Anatis2/ToDoAndCo_P8_Sf5&utm_campaign=Badge_Grade)
+
 ToDo&Co est une application de gestion de tâches.
 
 Elle correspond au projet 8 du parcours de développeur d'applications PHP/Symfony de OpenClassrooms.
