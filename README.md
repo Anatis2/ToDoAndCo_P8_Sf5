@@ -49,9 +49,12 @@ Pour cela, tapez la commande **git pull**.
 
 Ensuite, créez une branche spécialisée pour la fonctionnalité que vous souhaitez ajouter ou modifier (**git branch nomDeLaBranche**).
 
-Tout au long de l’implémentation de cette fonctionnalité, n’oubliez pas d’effectuer des commits réguliers, avec des messages clairs (**git commit -m “message expliquant ce que vous avez fait”**), suivi éventuellement d’un push sur cette branch (**git push nomDeLaBranche**).
+Tout au long de l’implémentation de cette fonctionnalité, n’oubliez pas :
+ * de vérifier que l'ensemble de vos fichiers sont bien suivis (si ce n'est pas le cas : **git add .**)
+ * d’effectuer des commits réguliers, avec des messages clairs (**git commit -m “message expliquant ce que vous avez fait”**), 
+ * éventuellement d’effectuer un push sur cette branch (**git push nomDeLaBranche**).
 
-Lorsque vous pensez que votre fonctionnalité est prête, ou que vous souhaitez la soumettre à quelqu’un pour qu’il puisse vous aiser, rendez-vous sur votre repo sur le site de GitHub et proposez une pull request à un contributeur.
+Lorsque vous pensez que votre fonctionnalité est prête, ou que vous souhaitez la soumettre à quelqu’un pour qu’il puisse vous aider, rendez-vous sur votre repo sur le site de GitHub et proposez une **pull request** à un contributeur.
 
 Il ne vous restera plus qu’à attendre que ce collaborateur valide cette pull request, suite à quoi vous pourrez merger votre branche sur la branche principale.
 Pour ce faire, rendez-vous sur la branche master (**git checkout master**), puis effectuez un merge de la branche correspondante (**git merge nomDeLaBranche**).
