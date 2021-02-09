@@ -18,7 +18,7 @@ class TaskController extends AbstractController
 	 * @Route("/tasks", name="task_list")
 	 * @isGranted("ROLE_USER")
 	 */
-	public function listAction(TaskRepository $taskRepository)
+	public function taskList(TaskRepository $taskRepository)
 	{
 		$tasks = $taskRepository->findAll();
 
@@ -32,7 +32,7 @@ class TaskController extends AbstractController
      * @Route("/tasksTodo", name="taskTodo_list")
 	 * @isGranted("ROLE_USER")
      */
-    public function listTodoAction(TaskRepository $taskRepository)
+    public function taskListTodo(TaskRepository $taskRepository)
     {
         $tasks = $taskRepository->findBy(['isDone' => false]);
 
@@ -46,7 +46,7 @@ class TaskController extends AbstractController
 	 * @Route("/tasksDone", name="taskDone_list")
 	 * @isGranted("ROLE_USER")
 	 */
-	public function listDoneAction(TaskRepository $taskRepository)
+	public function taskListDone(TaskRepository $taskRepository)
 	{
 		$tasks = $taskRepository->findBy(['isDone' => true]);
 
@@ -59,7 +59,7 @@ class TaskController extends AbstractController
 	 * @Route("/tasks/create", name="task_create")
 	 * @isGranted("ROLE_USER")
 	 */
-	public function createAction(Request $request, EntityManagerInterface $em)
+	public function taskCreate(Request $request, EntityManagerInterface $em)
 	{
 		$task = new Task();
 		$form = $this->createForm(TaskType::class, $task);
@@ -86,7 +86,7 @@ class TaskController extends AbstractController
 	 * @Route("/tasks/{id}/edit", name="task_edit")
 	 * @isGranted("ROLE_USER")
 	 */
-	public function editAction(Request $request, Task $task, EntityManagerInterface $em)
+	public function taskEdit(Request $request, Task $task, EntityManagerInterface $em)
 	{
 		$form = $this->createForm(TaskType::class, $task);
 
@@ -110,7 +110,7 @@ class TaskController extends AbstractController
 	 * @Route("/tasks/{id}/toggle", name="task_toggle")
 	 * @isGranted("ROLE_USER")
 	 */
-	public function toggleTaskAction(Task $task, EntityManagerInterface $em)
+	public function toggleTask(Task $task, EntityManagerInterface $em)
 	{
 		$task->toggle(!$task->isDone());
 		$em->flush();
@@ -129,7 +129,7 @@ class TaskController extends AbstractController
 	 * @Route("/tasks/{id}/delete", name="task_delete")
 	 * @isGranted("ROLE_USER")
 	 */
-	public function deleteTaskAction(Request $request, EntityManagerInterface $em, Task $task)
+	public function taskDelete(Request $request, EntityManagerInterface $em, Task $task)
 	{
 		if($this->isCsrfTokenValid('delete' . $task->getId(), $request->get('_token'))) {
 			$em->remove($task);

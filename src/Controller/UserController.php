@@ -24,7 +24,7 @@ class UserController extends AbstractController
 	 * @Route("/users", name="user_list")
 	 * @isGranted("ROLE_ADMIN")
 	 */
-	public function listAction(UserRepository $userRepository)
+	public function userList(UserRepository $userRepository)
 	{
 		$users = $userRepository->findAll();
 
@@ -37,7 +37,7 @@ class UserController extends AbstractController
 	 * @Route("/users/create", name="user_create")
 	 * @isGranted("ROLE_ADMIN")
 	 */
-	public function createAction(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder, MailerInterface $mailer)
+	public function userCreate(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder, MailerInterface $mailer)
 	{
 		$user = new User();
 		$form = $this->createForm(UserCreateType::class, $user);
@@ -75,7 +75,7 @@ class UserController extends AbstractController
 	 * @Route("/users/{id}/editRole", name="userRole_edit")
 	 * @isGranted("ROLE_ADMIN")
 	 */
-	public function editRoleAction(Request $request, User $user, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
+	public function userEditRole(Request $request, User $user, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
 	{
 		$form = $this->createForm(UserRoleEditType::class, $user);
 
@@ -102,7 +102,7 @@ class UserController extends AbstractController
 	 * @Route("/users/{id}/delete", name="user_delete")
 	 * @isGranted("ROLE_ADMIN")
 	 */
-	public function deleteAction(Request $request, EntityManagerInterface $em, User $user)
+	public function userDelete(Request $request, EntityManagerInterface $em, User $user)
 	{
 		if($this->isCsrfTokenValid('delete' . $user->getId(), $request->get('_token'))) {
 			$em->remove($user);
@@ -117,7 +117,7 @@ class UserController extends AbstractController
 	 * @Route("/user/{id}/edit", name="user_edit")
 	 * @isGranted("ROLE_USER")
 	 */
-	public function editAction(Request $request, User $user, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
+	public function userEdit(Request $request, User $user, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
 	{
 		$userSession = $this->getUser();
 
@@ -150,7 +150,7 @@ class UserController extends AbstractController
 	 * @Route("/user/{id}/editPassword", name="userPassword_edit")
 	 * @isGranted("ROLE_USER")
 	 */
-	public function editPasswordAction(Request $request, User $user, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
+	public function userEditPassword(Request $request, User $user, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
 	{
 		$userSession = $this->getUser();
 
